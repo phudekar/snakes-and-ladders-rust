@@ -36,28 +36,7 @@ impl<'a> Game {
             }
             if let Some(square) = self.board.get_square(next_position) {
                 player.move_to(square.next().clone());
-                match square {
-                    Square::Snake(head, _) => println!(
-                        "{} took {} steps and got eaten by Snake at {} and moved to {}",
-                        player.name(),
-                        steps,
-                        head,
-                        player.position()
-                    ),
-                    Square::Ladder(bottom, _) => println!(
-                        "{} took {} steps and found Ladder at {} and moved to {}",
-                        player.name(),
-                        steps,
-                        bottom,
-                        player.position()
-                    ),
-                    _ => println!(
-                        "{} took {} steps and moved to {}",
-                        player.name(),
-                        steps,
-                        player.position()
-                    ),
-                }
+                Self::print_progress(player, steps, square);
             }
             if player.position() == 100 {
                 Ok(Some(player.clone()))
@@ -79,5 +58,30 @@ impl<'a> Game {
         let mut ps: Vec<Player> = self.players.values().cloned().collect();
         ps.sort_by_key(|p| p.name());
         ps.get(self.current_player_index).cloned()
+    }
+
+    fn print_progress(player: &Player, steps: u8, square: &Square) {
+        match square {
+            Square::Snake(head, _) => println!(
+                "{} took {} steps and got eaten by Snake at {} and moved to {}",
+                player.name(),
+                steps,
+                head,
+                player.position()
+            ),
+            Square::Ladder(bottom, _) => println!(
+                "{} took {} steps and found Ladder at {} and moved to {}",
+                player.name(),
+                steps,
+                bottom,
+                player.position()
+            ),
+            _ => println!(
+                "{} took {} steps and moved to {}",
+                player.name(),
+                steps,
+                player.position()
+            ),
+        }
     }
 }
