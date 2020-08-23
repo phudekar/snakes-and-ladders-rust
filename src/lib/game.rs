@@ -9,7 +9,7 @@ pub struct Game {
     current_player_index: usize,
 }
 
-impl<'a> Game {
+impl Game {
     pub fn new(number_of_players: u8, snakes: Vec<Square>, ladders: Vec<Square>) -> Game {
         let mut players = HashMap::new();
         (1..=number_of_players).for_each(|n| {
